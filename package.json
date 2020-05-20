@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-homework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mykhail1387/nodejs-homework.git"
+  },
+  "author": "Mykhail Melnychuk <melnychukmykhailo87@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mykhail1387/nodejs-homework/issues"
+  },
+  "homepage": "https://github.com/Mykhail1387/nodejs-homework#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "yargs": "^15.3.1"
+  }
+}
