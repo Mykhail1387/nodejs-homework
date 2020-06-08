@@ -1,0 +1,31 @@
+{
+  "name": "02-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.3",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mykhail1387/nodejs-homework.git"
+  },
+  "author": "Mykhail Melnychuk <melnychukmykhailo87@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mykhail1387/nodejs-homework/issues"
+  },
+  "homepage": "https://github.com/Mykhail1387/nodejs-homework#readme"
+}
