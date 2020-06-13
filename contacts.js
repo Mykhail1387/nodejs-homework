@@ -13,6 +13,7 @@ exports.listContacts = async () => {
     const contacts = await readFile(contactsPath, 'utf-8');
     const contactsParse = JSON.parse(contacts);
     contactsParse.map(({ name, phone }) => console.log(`${name} - ${phone}`));
+    return contactsParse;
 }
 
 exports.getContactById = async (contactId) => {
@@ -38,3 +39,17 @@ exports.addContact = async (name, email, phone) => {
     console.log(contacts);
     return await writeFile('./db/contacts.json', JSON.stringify(contacts));
 }
+
+exports.updateContact = async (contactId, body) => {
+    const contactsFromJson = await readFile('./db/contacts.json', 'utf8');
+    const contacts = JSON.parse(contactsFromJson);
+
+    const targetContactIndex = contacts.findIndex(contact => contact.id === contactId)
+
+    contacts[targetContactIndex] = {
+        ...contacts[targetContactIndex],
+        ...body
+    }
+    console.log('contacts:', contacts);
+    return await writeFile('./db/contacts.json', JSON.stringify(contacts));
+} 
