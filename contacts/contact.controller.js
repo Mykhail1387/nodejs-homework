@@ -1,90 +1,52 @@
-const funkOnContacts = require('../contacts');
-const Joi = require('joi');
-const contacts = require('../db/contacts.json');
+import Contact from './contact.model';
 
-class contactController {
-    listContacts = (req, res, next) => {
-        funkOnContacts.listContacts();
-        return res.status(200).json(contacts);
-    }
-
-    getById = (req, res, next) => {
-        funkOnContacts.getContactById(parseInt(req.params.contactId));
-
-        const contactId = parseInt(req.params.contactId);
-        const targetContactIndex = contacts.findIndex(contact => contact.id === contactId);
-
-        if (targetContactIndex === -1) {
-            res.status(404).json("Not found")
-        }
-        return res.status(200).json(contacts[targetContactIndex]);
-    }
-
-    addContact = (req, res, next) => {
-        const newContact = {
-            id: contacts.length + 1,
-            ...req.body
-        }
-        const { name, email, phone } = req.body;
-        funkOnContacts.addContact(name, email, phone);
-
-        contacts.push(newContact);
-        res.status(201).json(newContact);
-    }
-
-    removeContact = (req, res, next) => {
-        const contactId = parseInt(req.params.contactId);
-        funkOnContacts.removeContact(contactId);
-        const targetContactIndex = contacts.findIndex(contact => contact.id === contactId);
-
-        if (targetContactIndex === -1) {
-            res.status(404).json('Not found')
-        }
-        res.status(200).json('contact deleted');
-        contacts.splice(targetContactIndex, 1);
-    }
-
-    updateContact = (req, res, next) => {
-        const contactId = parseInt(req.params.contactId);
-        funkOnContacts.updateContact(contactId, req.body);
-
-        const targetContactIndex = contacts.findIndex(contact => contact.id === contactId)
-        if (targetContactIndex === -1) {
-            res.status(404).json("Not found")
-        };
-
-        contacts[targetContactIndex] = {
-            ...contacts[targetContactIndex],
-            ...req.body
-        }
-        return res.status(200).send(contacts);
-    }
-
-    validateAddContact = (req, res, next) => {
-        const createContactRules = Joi.object({
-            name: Joi.string().required(),
-            email: Joi.string().required(),
-            phone: Joi.string().required(),
-        })
-        const result = Joi.validate(req.body, createContactRules);
-        if (result.error) {
-            return res.status(400).json("missing required name field")
-        }
-        next();
-    }
-
-    validateUpdateContact = (req, res, next) => {
-        const updateContactRules = Joi.object({
-            name: Joi.string().required(),
-            email: Joi.string().required(),
-            phone: Joi.string().required(),
-        })
-        const result = Joi.validate(req.body, updateContactRules);
-        if (result.error) {
-            return res.status(400).json("missing fields")
-        }
-        next();
+export const listContacts = async (req, res) => {
+    try {
+        const contacts = await Contact.listContacts(req.query);
+        res.json(contacts)
+        console.log('listContacts:', contacts);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('bad request')
     }
 }
 
-module.exports = new contactController();
+export const createContactController = async (req, res) => {
+    try {
+        const createdContact = await Contact.createContact(req.body);
+        res.json(createdContact);
+        console.log('createContactController:', createdContact);
+    } catch (err) {
+        res.status(500).send('server error');
+    }
+}
+
+export const getContactByIdController = async (req, res) => {
+    try {
+        const contact = await Contact.getContactById(req.params.id);
+        res.json(contact);
+        console.log('getContactByIdController:', contact);
+    } catch (err) {
+        res.status(500).send('server error');
+    }
+}
+
+export const deleteContactController = async (req, res) => {
+    try {
+        const contact = await Contact.deleteContact(req.params.id);
+        res.json(contact);
+        console.log('deleteContactController:', contact);
+    } catch (err) {
+        res.status(500).send('server error');
+    }
+}
+
+export const updateContactController = async (req, res) => {
+    try {
+        const contact = await Contact.updateContact(req.body);
+        res.json(contact);
+        console.log('updateContactController:', contact);
+    } catch (err) {
+        res.status(500).send('server error');
+    }
+}

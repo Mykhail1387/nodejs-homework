@@ -8,13 +8,12 @@ import mongoose from 'mongoose';
 import contactRouter from './contacts/contact.router';
 const PORT = process.env.PORT || 3001;
 
-// console.log('router:', contactRouter)
 
 const runServer = async () => {
     const app = express();
     try {
         await mongoose.connect(process.env.DB_URI, { useUnifiedTopology: true });
-        console.log('Mongo has been connected');
+        console.log('Database connection successful');
         app.use(express.json());
 
         app.use('/contacts', contactRouter);
