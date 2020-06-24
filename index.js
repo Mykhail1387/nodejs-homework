@@ -5,7 +5,8 @@ dotenv.config();
 
 import express from 'express';
 import mongoose from 'mongoose';
-import contactRouter from './contacts/contact.router';
+import authRouter from './auth/auth.router';
+import userRouter from './users/user.router';
 const PORT = process.env.PORT || 3001;
 
 
@@ -16,7 +17,9 @@ const runServer = async () => {
         console.log('Database connection successful');
         app.use(express.json());
 
-        app.use('/contacts', contactRouter);
+        app.use('/auth', authRouter)
+
+        app.use('/users', userRouter);
 
         app.listen(PORT, () => {
             console.log(`started listening on port ${PORT}`)
