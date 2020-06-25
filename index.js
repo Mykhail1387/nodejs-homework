@@ -1,26 +1,31 @@
-'use strict';
+require = require('esm')(module);
 
-const express = require('express');
-
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
 dotenv.config();
 
-const cors = require('cors');
-
-const app = express();
-
+import express from 'express';
+import mongoose from 'mongoose';
+import contactRouter from './contacts/contact.router';
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
 
-const { contactRouter } = require('./contacts/contact.router');
+const runServer = async () => {
+    const app = express();
+    try {
+        await mongoose.connect(process.env.DB_URI, { useUnifiedTopology: true });
+        console.log('Database connection successful');
+        app.use(express.json());
 
-app.use(express.json());
+        app.use('/contacts', contactRouter);
 
-app.use('/contacts', contactRouter);
+        app.listen(PORT, () => {
+            console.log(`started listening on port ${PORT}`)
+        })
+    } catch (err) {
+        console.log(err)
+    }
 
-app.listen(PORT, () => {
-    console.log(`started listening on port ${PORT}`)
-})
+}
+
+
+runServer();

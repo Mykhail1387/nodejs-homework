@@ -1,18 +1,21 @@
-const express = require('express');
+import { Router } from 'express';
+import {
+    listContacts,
+    createContactController,
+    getContactByIdController,
+    updateContactController,
+    deleteContactController
+} from './contact.controller';
+import { contactValidateMiddleware } from './contact.validator';
 
-const contactController = require('./contact.controller');
 
-const contactRouter = express.Router();
+const contactRouter = Router();
+
+contactRouter.get('/', listContacts)
+contactRouter.get('/:id', getContactByIdController)
+contactRouter.post('/', contactValidateMiddleware, createContactController)
+contactRouter.delete('/:id', deleteContactController)
+contactRouter.put('/', updateContactController)
 
 
-contactRouter.get('/', contactController.listContacts);
-
-contactRouter.get('/:contactId', contactController.getById);
-
-contactRouter.post('/', contactController.validateAddContact, contactController.addContact);
-
-contactRouter.delete('/:contactId', contactController.removeContact);
-
-contactRouter.patch('/:contactId', contactController.validateUpdateContact, contactController.updateContact);
-
-exports.contactRouter = contactRouter;
+export default contactRouter;
