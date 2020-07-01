@@ -3,9 +3,15 @@ import mongoose, { Schema } from 'mongoose';
 const userSchema = new Schema({
     email: String,
     password: String,
-    subscription: Object,
+    avatarURL: String,
+    subscription: {
+        type: String,
+        enum: ["free", "pro", "premium"],
+        default: "free"
+    },
     token: String
 });
+
 
 class User {
     constructor() {
@@ -39,3 +45,4 @@ class User {
 }
 
 export default new User();
+
