@@ -3,6 +3,7 @@ import { salt } from '../config/index';
 import { loginValidation } from './auth.validator';
 import User from '../users/user.model';
 import { createToken } from '../services/auth.services';
+import { generateAvatar } from '../avatarGenerstor/avatarGenerator';
 
 
 export const registrationController = async (req, res) => {
@@ -15,12 +16,14 @@ export const registrationController = async (req, res) => {
             })
             return;
         }
+        const avatarURL = await generateAvatar(email);
 
         const hashPassword = await bcrypt.hash(req.body.password, salt);
-        const user = { ...req.body, password: hashPassword, subscription: 'free' };
+        const user = { ...req.body, password: hashPassword, subscription: 'free', avatarURL: avatarURL };
         await User.createUser(user);
-        res.status(201).json({ email: user.email, subscription: user.subscription })
+        res.status(201).json({ email: user.email, subscription: user.subscription, avatarURL: user.avatarURL })
     } catch (e) {
+        console.log('error=', e)
         res.status(400).send('bad requestrt')
 
     }

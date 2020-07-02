@@ -45,6 +45,7 @@ export const tokenCheck = async (req, res, next) => {
 export const currentUser = async (req, res, next) => {
     const { id } = req.userInfo;
     const user = await User.getUserById(id);
-    const { email, subscription } = user;
-    res.status(200).json({ email, subscription })
+
+    const { email, subscription, avatarURL } = user;
+    res.status(200).json({ email, subscription, avatarURL })
 }

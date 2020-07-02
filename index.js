@@ -17,9 +17,11 @@ const runServer = async () => {
         console.log('Database connection successful');
         app.use(express.json());
 
-        app.use('/auth', authRouter)
+        app.use('/auth', authRouter);
 
         app.use('/users', userRouter);
+
+        app.use(express.static('public'));
 
         app.listen(PORT, () => {
             console.log(`started listening on port ${PORT}`)
