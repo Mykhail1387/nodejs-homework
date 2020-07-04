@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { boolean } from 'yargs';
 
 const userSchema = new Schema({
     email: String,
@@ -9,7 +10,9 @@ const userSchema = new Schema({
         enum: ["free", "pro", "premium"],
         default: "free"
     },
-    token: String
+    token: { type: String, required: false },
+    verificationToken: { type: String },
+
 });
 
 
@@ -42,6 +45,7 @@ class User {
         const { id, ...userModel } = user;
         return this.user.findByIdAndUpdate(id, userModel, { new: true })
     }
+
 }
 
 export default new User();
