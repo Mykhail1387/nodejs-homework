@@ -9,7 +9,6 @@ import authRouter from './auth/auth.router';
 import userRouter from './users/user.router';
 const PORT = process.env.PORT || 3001;
 
-
 const runServer = async () => {
     const app = express();
     try {
